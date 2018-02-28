@@ -7,31 +7,107 @@
 // Example: 5! = 5 x 4 x 3 x 2 x 1 = 120
 // factorial(5); // 120
 var factorial = function(n) {
+
+	if (n===0) {
+		return 1;
+	} else if (n<0) {
+		return null;
+	}
+	else {
+		return n*factorial(n-1);
+	}
 };
 
 // 2. Compute the sum of an array of integers.
 // sum([1,2,3,4,5,6]); // 21
 var sum = function(array) {
+	var array2 = array.slice();
+	if (array2.length===1) {
+		return array.pop();
+	} else if (array2.length===0) {
+		return 0;
+	} else {
+		return array2.pop()+sum(array2);
+	}
 };
 
 // 3. Sum all numbers in an array containing nested arrays.
 // arraySum([1,[2,3],[[4]],5]); // 15
 var arraySum = function(array) {
+
+	var sum = 0;
+
+	for (var i=0; i<array.length; i++) {
+
+		if (Array.isArray(array[i])) {
+			sum = sum + arraySum(array[i]);
+		} else {
+			sum+= array[i];
+		}
+
+
+
+	}
+	return sum;
+
 };
 
 // 4. Check if a number is even.
 var isEven = function(n) {
+	if (n===1) {
+		return false;
+	} else if (n===0) {
+		return true;
+	} else {
+
+		if (n>0) {
+			return isEven(n-2);
+		} else {
+			return isEven(n+2);
+		}
+	}
 };
 
 // 5. Sum all integers below a given integer.
 // sumBelow(10); // 45
 // sumBelow(7); // 21
 var sumBelow = function(n) {
+	
+	if (n>=0) {
+		if (n===0) {
+		return 0;
+		} else {
+			return n-1 +sumBelow(n-1)
+		}
+	} else {
+		if (n===0) {
+			return 0;
+		} else {
+			return n+1 +sumBelow(n+1);
+		}
+
+
+	}
+
+	
 };
 
 // 6. Get the integers within a range (x, y).
 // range(2,9); // [3,4,5,6,7,8]
 var range = function(x, y) {
+
+	var results = [];
+
+	if (Math.abs(x-y) === 1 || Math.abs(x-y) === 0) {
+		return results;
+	} else if (x<y) {
+		results.push(x+1);
+		return results.concat(range(x+1, y));
+	} else {
+		results.push(x-1);
+		return results.concat(range(x-1, y));
+	}
+
 };
 
 // 7. Compute the exponent of a number.
@@ -40,6 +116,22 @@ var range = function(x, y) {
 // exponent(4,3); // 64
 // https://www.khanacademy.org/computing/computer-science/algorithms/recursive-algorithms/a/computing-powers-of-a-number
 var exponent = function(base, exp) {
+  if (exp ===0) {
+  	return 1;
+  } else if (exp > 0) {
+  		if (exp===1) {
+  			return base;
+  		} else {
+  			return base * exponent(base,exp-1);
+  		}
+  } else if (exp < 0) {
+  		if (exp===-1) {
+  			return 1/base;
+  		} else {
+  			return 1/base * exponent(base,exp+1);
+  		}
+  }
+  
 };
 
 // 8. Determine if a number is a power of two.
@@ -47,10 +139,25 @@ var exponent = function(base, exp) {
 // powerOfTwo(16); // true
 // powerOfTwo(10); // false
 var powerOfTwo = function(n) {
+
+
+
+
+
 };
 
 // 9. Write a function that reverses a string.
 var reverse = function(string) {
+
+	if (string.length===1) {
+		return string[string.length-1];
+	}
+	else {
+		var newString = string.slice(0, string.length-1);
+		return string[string.length-1] + reverse(newString);
+	}
+
+	
 };
 
 // 10. Write a function that determines if a string is a palindrome.
@@ -88,6 +195,25 @@ var gcd = function(x, y) {
 // compareStr('house', 'houses') // false
 // compareStr('tomato', 'tomato') // true
 var compareStr = function(str1, str2) {
+
+	if (str1.length>str2.length) {
+		var longWord = str1;
+		var secondWord = str2;
+	} else {
+		var longWord = str2;
+		var secondWord = str1;
+	}
+
+	if (longWord.length < 2) {
+		return longWord===secondWord;
+
+	} else {
+		var newString1 = longWord.slice(1);
+		var newString2 = secondWord.slice(1);
+		return longWord[0]===secondWord[0] && compareStr(newString1, newString2);
+	}
+
+	
 };
 
 // 16. Write a function that accepts a string and creates an array where each letter
@@ -117,6 +243,20 @@ var fizzBuzz = function(n) {
 // countOccurrence([2,7,4,4,1,4], 4) // 3
 // countOccurrence([2,'banana',4,4,1,'banana'], 'banana') // 2
 var countOccurrence = function(array, value) {
+
+	if (array.length===0) {
+		return 0;
+	}
+	else {
+		var element = array.pop();
+		if (element===value) {
+			return 1 + countOccurrence(array,value);
+
+		} else {
+			return 0 + countOccurrence(array, value);
+		}
+
+	}
 };
 
 // 21. Write a recursive version of map.
@@ -141,6 +281,24 @@ var countValuesInObj = function(obj, value) {
 // 24. Find all keys in an object (and nested objects) by a provided name and rename
 // them to a provided new name while preserving the value stored at that key.
 var replaceKeysInObj = function(obj, oldKey, newKey) {
+
+	//for key in obj
+	//if key is an obj, recursive call
+	//replace oldkey with new key
+	//return obj
+
+	for (var key in obj) {
+
+		if (typeof(obj[key])==='object') {
+			replaceKeysInObj(obj[key], oldKey, newKey);
+		} else if (key===oldKey) {
+			var savedValue = obj[oldKey];
+			obj[newKey] = savedValue;	
+			delete obj[oldKey];
+		}
+	}
+	return obj;
+
 };
 
 // 25. Get the first n Fibonacci numbers. In the Fibonacci sequence, each subsequent
