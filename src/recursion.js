@@ -7,7 +7,8 @@
 // Example: 5! = 5 x 4 x 3 x 2 x 1 = 120
 // factorial(5); // 120
 var factorial = function(n) {
-
+	//added comment
+	//another
 	if (n===0) {
 		return 1;
 	} else if (n<0) {
